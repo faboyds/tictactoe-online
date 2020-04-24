@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Tic Tac Toe</title>
+    <script src="/socket.io/socket.io.js"></script>
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+
+    <!-- Font Family -->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+
+    <link rel="stylesheet" type="text/css" href="static/styles.css">
+</head>
+
+<body>
+    <div class="p-5" id="page">
+
+        <div class="row h-100" id="connection-area">
+            <div class="container">
+                <h3>
+                    <a>Your ID is</a>
+                    <a id="connectionId" class="mr-1"></a>
+                    <a id="copy-to-clipboard-btn" data-toggle="tooltip" data-placement="right" data-delay="{ "show": 500, "hide": 100 }" title="Click to copy ID to clipboard"><i class="fas fa-copy"></i></a>
+                </h3>
+
+                <div class="input-group mb-3">
+                    <input type="text" class="form-control" id="opponentId-input" placeholder="Opponent ID">
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-light" id="join">Join game</button>
+                    </div>
+                </div>
+
+                <p>Send your ID to your opponent or insert theirs here</p>
+
+                <div class="container mt-5 text-center">
+                    <h3>Waiting for someone to join you... </h3>
+                    <h1><i class="fa fa-spinner fa-spin"></i></h1>
+                </div>
+            </div>
+        </div>
+
+        <div class="row" id="board-area" style="display: none">
+
+            <div id="wins-area" class="container mt-3 mb-5 text-white text-center border-bottom border-white" style="border-width: 5px !important;">
+                <div class="row">
+                    <div class="col-6">
+                        <div class="row justify-content-center">
+                            <h2 id="wins-label" class="mr-3 text-center">Wins:</h2>
+                            <h2 id="wins-counter-label" class="text-center">0</h2>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="row justify-content-center">
+                            <h2 id="loses-label" class="mr-3 text-center">Loses:</h2>
+                            <h2 id="loses-counter-label" class="text-center">0</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <table class="container d-flex justify-content-center">
+                <tr class="row">
+                    <td class="cell col-auto" id="cell-1">
+                        <canvas width="100px" height="100px"></canvas>
+                    </td>
+                    <td class="cell col-auto" id="cell-2">
+                        <canvas width="100px" height="100px"></canvas>
+                    </td>
+                    <td class="cell col-auto" id="cell-3">
+                        <canvas width="100px" height="100px"></canvas>
+                    </td>
+                </tr>
+                <tr class="row ">
+                    <td class="cell col-auto" id="cell-4">
+                        <canvas width="100px" height="100px"></canvas>
+                    </td>
+                    <td class="cell col-auto" id="cell-5">
+                        <canvas width="100px" height="100px"></canvas>
+                    </td>
+                    <td class="cell col-auto" id="cell-6">
+                        <canvas width="100px" height="100px"></canvas>
+                    </td>
+                </tr>
+                <tr class="row ">
+                    <td class="cell col-auto" id="cell-7">
+                        <canvas width="100px" height="100px"></canvas>
+                    </td>
+                    <td class="cell col-auto" id="cell-8">
+                        <canvas width="100px" height="100px"></canvas>
+                    </td>
+                    <td class="cell col-auto" id="cell-9">
+                        <canvas width="100px" height="100px"></canvas>
+                    </td>
+                </tr>
+            </table>
+
+            <div id="turns-area" class="container mt-3 text-white text-center">
+                <h2 id="turn-label"></h2>
+                <h2 id="turn-spinner"><i class="fa fa-spinner fa-spin"></i></h2>
+            </div>
+
+            <div class="container mt-3 text-white text-center" id="results-area" style="display: none">
+                <h2 id="result"></h2>
+                <h6 id="opponent-play-again-label" style="display: none">Your opponent wants to play again</h6>
+                <button id="replay-btn" class="btn btn-light btn-block">Play again</button>
+                <button id="leave-btn" class="btn btn-secondary btn-block">Leave</button>
+            </div>
+        </div>
+    </div>
+</body>
+
+<script src="/static/game.js"></script>
+
+<script>
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip()
+    })
+</script>
+</html>
