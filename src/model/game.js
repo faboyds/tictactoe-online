@@ -8,20 +8,23 @@ class Game {
         this.player2PlayAgain = false;
         this.player1Wins = 0;
         this.player2Wins = 0;
+        this.over = false;
     }
 
     // return 1 if win, 0 if no win, -1 if invalid
     play(cell, player) {
-        if(this.isTurnOf(player) && this.board[cell] === '') {
+        if(this.isTurnOf(player) && this.board[cell] === '' && !this.over) {
             this.board[cell] = player;
             this.toggleTurn();
 
             if(this.checkWin(player)) {
+                this.over = true;
                 player === this.player1 ? this.player1Wins++ : this.player2Wins++;
                 return 1;
             }
 
             if(this.checkTie()) {
+                this.over = true;
                 return 2;
             }
 
@@ -60,6 +63,7 @@ class Game {
         this.board = ['','','','','','','','',''];
         this.player1PlayAgain = false;
         this.player2PlayAgain = false;
+        this.over = false;
     }
 }
 
