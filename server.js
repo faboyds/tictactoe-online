@@ -82,6 +82,12 @@ io.on('connection', function(socket) {
                     io.to(game.player1).emit('game-over', socket.id, game.player1Wins, game.player2Wins);
                     io.to(game.player2).emit('game-over', socket.id, game.player2Wins, game.player1Wins);
                 }
+
+                if (resultOfPlay === 2) {
+                    console.log('It is a tie!');
+                    io.to(game.player1).emit('game-over', null, game.player1Wins, game.player2Wins);
+                    io.to(game.player2).emit('game-over', null, game.player2Wins, game.player1Wins);
+                }
             }
         }
 

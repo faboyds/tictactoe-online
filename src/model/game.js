@@ -21,6 +21,10 @@ class Game {
                 return 1;
             }
 
+            if(this.checkTie()) {
+                return 2;
+            }
+
             return 0;
         }
         return -1;
@@ -46,6 +50,10 @@ class Game {
         if (this.board[0] == cellValue && this.board[4] == cellValue && this.board[8] == cellValue) return true;
         if (this.board[2] == cellValue && this.board[4] == cellValue && this.board[6] == cellValue) return true;
         return false;
+    }
+
+    checkTie() {
+        return this.board.indexOf('') === -1;
     }
 
     reset() {

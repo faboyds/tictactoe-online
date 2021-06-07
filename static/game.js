@@ -165,8 +165,10 @@ socket.on('game-over', function(winner, ownWins, opponentWins) {
     losesCounterLabel.innerHTML = opponentWins;
     if (winner === socket.id) {
         document.getElementById('result').innerText = 'You won!';
-    } else {
+    } else if (winner !== null) {
         document.getElementById('result').innerText = 'You lost...';
+    } else {
+        document.getElementById('result').innerText = 'It\'s a tie';
     }
 });
 
