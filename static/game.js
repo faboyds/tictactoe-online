@@ -206,6 +206,7 @@ function goBackToHomePage() {
     boardArea.style.display = 'none';
     connectionArea.style.display = 'block';
     turnsArea.style.display = 'block';
+    document.getElementById('opponentId-input').value = '';
 }
 
 function hideResultsArea() {
