@@ -11,7 +11,7 @@
   "author": "Fábio Lourenço",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.16.4",
+    "express": "^4.18.2",
     "nodemon": "^1.18.10",
     "socket.io": "^2.4.0",
     "socket.io-client": "^2.2.0"
